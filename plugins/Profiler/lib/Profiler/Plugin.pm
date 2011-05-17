@@ -121,7 +121,7 @@ sub results {
     $param->{rows} = \@rows;
     $param->{template_name} = $tmpl->name;
     $param->{total_time} = tv_interval($start, $end);
-
+    $param->{return_args} = '__mode=list&_type=template';
     return $app->load_tmpl( 'report.tmpl', $param );
 }
 
