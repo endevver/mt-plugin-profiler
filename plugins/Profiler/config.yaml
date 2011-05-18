@@ -14,4 +14,4 @@ applications:
         profile:
           label: Generate Performance Report
           order: 110
-          code: $Profiler::Profiler::Plugin::itemset_profile
+          code: $Profiler::Profiler::Plugin::itemset_profile_template

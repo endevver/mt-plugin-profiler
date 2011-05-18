@@ -1,10 +1,11 @@
 package Profiler::Plugin;
 
 use strict;
-use MT::BuildProfiler;
+use warnings;
 use Time::HiRes qw( tv_interval gettimeofday );
+use MT::BuildProfiler;
 
-sub itemset_profile {
+sub itemset_profile_template {
     my $app = shift;
     my $q = $app->{query};
     $app->validate_magic or return $app->error("Invalid magic");
@@ -17,6 +18,10 @@ sub itemset_profile {
 	MT->log({ blog_id => $app->blog->id, message => "Profiling template: " . $tmpl->name });
 	return results($app, $tmpl);
     }
+}
+
+# TODO Create "profile build" mode that gives a more holistic, aggregate and comprehensive view of the entire build process and can be enabled for *ANY* build process, even full blog republishing.
+sub profile_build {
 }
 
 sub results {
