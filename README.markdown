@@ -31,9 +31,9 @@ it easier to determine the outliers within given template.
 
 ## Bugs, Feature requests and support ##
 
-If you think you've found a bug or have a feature request, please feel free to file it in [our Lighthouse tracker](https://endevver.lighthouseapp.com/projects/36107-template-profiler).  
+If you are having problems installing or using the plugin, please check out our general knowledge base and help ticket system at [help.endevver.com](http://help.endevver.com).
 
-If on the other hand, you aren't sure whether you found a bunch or are just having problems and questions, yell for help at <http://help.endevver.com> and we'll do our best to get you through.
+If you know that you've encountered a bug in the plugin or you have a request for a feature you'd like to see, you can file a ticket in [Github Issues](https://github.com/endevver/mt-plugin-profiler/issues).
 
 ## License ##
 
