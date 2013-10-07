@@ -31,7 +31,7 @@ sub report {
         my $query_count = scalar(@$queries) - ( $ramhit + $ramadd );
         push @rows,
           {
-            time    => sprintf( "%0.3f", $PROFILES{$tag}{time} ),
+            time    => sprintf( "%0.4f", $PROFILES{$tag}{time} ),
             tag     => $tag,
             calls   => $PROFILES{$tag}{calls},
             avg     => $time_avg,
