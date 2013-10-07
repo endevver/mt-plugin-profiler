@@ -1,14 +1,22 @@
-<mt:setvarblock name="page_title">Performance Profile: <mt:var name="template_name"></mt:setvarblock>
+<mt:setvarblock name="page_title">
+    Performance Profile: 
+    <a href="<mt:Var name="script_url">?__mode=view&amp;_type=template&amp;id=<mt:Var name="template_id">&amp;blog_id=<mt:Var name="blog_id">">
+        <mt:var name="template_name">
+    </a>
+</mt:setvarblock>
+<mt:SetVarBlock name="screen_group">design</mt:SetVarBlock>
 
 <mt:setvarblock name="html_head" append="1">
-    <script type="text/javascript" src="<$mt:StaticWebPath$>jquery/jquery.js"></script>
     <script type="text/javascript" src="<mt:StaticWebPath>support/plugins/profiler/jquery.tablesorter.min.js"></script>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
-        $("#tags-listing-table").tablesorter();
-        $("#tags-listing-table").bind("sortEnd",function() {
+        $("table.listing-table").tablesorter({
+            // Sort on the second column (time) in descending order.
+            sortList: [[1,1]]
+        });
+        $("table.listing-table").bind("sortEnd",function() {
           var count = 0;
-          $("#tags-listing-table tr").each( function() {
+          $("table.listing-table tr").each( function() {
             if (count++ % 2 == 0) {
               $(this).removeClass('odd').addClass('even');
             } else {
@@ -19,67 +27,26 @@
     });
     </script>
     <style type="text/css">
-        #tags-listing-table { width: 675px }
-        #tags-listing-table .date { white-space: nowrap; }
-        #main-content { padding-top: 5px; }
         .content-nav #main-content .msg { margin-left: 0px; }
-        .listing-header { padding: 5px 0 10px 10px; }
-        .listing h2 { color: #999; border-bottom: 1px solid #999; margin-bottom: 20px }
-        th.header {
-          cursor: pointer;
-          font-weight: bold;
-          background-repeat: no-repeat;
-          background-position: center right;
-          border-right: 1px solid #dad9c7;
-          margin-left: -1px;
+        #main-content th.header {
+            cursor: pointer;
             background-image: url(<mt:StaticWebPath>support/plugins/profiler/bg.gif);
+            background-repeat: no-repeat;
+            background-position: center right;
         }
         th.headerSortUp {
           background-image: url(<mt:StaticWebPath>support/plugins/profiler/asc.gif);
         }
         th.headerSortDown {
-        }
-        .flyout {
-            left: auto;
-            right: auto;
-            top: 205px;
-            width: 175px;
-            display: block;
-            margin: 0 0 0 675px;
-            padding: 5px 20px;
-        }
-        .flyout h2 {
-            margin-top: 0px;
-            border-bottom: 1px solid #333;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .flyout li {
-            padding-bottom: 5px;
-            color: #333;
-        }
-        .flyout p {
-            margin: 3px 0 15px;
           background-image: url(<mt:StaticWebPath>support/plugins/profiler/desc.gif);
         }
     </style>
 </mt:setvarblock>
 
-<$mt:include name="include/header.tmpl"$>
-<mt:if name="rows">
-<mt:setvarblock name="listing_header">
-    <div class="table-key flyout">
-        <h2>
-            Bad tag! Good tag!
-        </h2>
-        <p>
-            This report summarizes the publishing performance for all tags
-            processed found publishing for each template tag found during in the
-            template and its includes (i.e. modules, widgets, etc)
-        </p>
-        <h2>
-            Key
-        </h2>
+<mt:setvarblock name="related_content">
+    <mtapp:Widget
+        id="legend"
+        label="<__trans phrase="Key">">
         <ul>
             <li>
                 <strong>Time</strong><br />
@@ -110,36 +77,81 @@
             <a href="http://help.endevver.com">help.endevver.com</a> and let
             us know!
         </p>
-    </div>
+    </mtapp:Widget>
 </mt:setvarblock>
-<mtapp:listing loop="rows" type="tags" default="<__trans phrase="It appears the template you are profiling is empty.">" empty_message="<__trans phrase="It appears the template you are profiling is empty.">" hide_pager="1" class="show_all">
-    <mt:if name="__first__">
-    <thead>
-        <tr>
-            <th id="l-tag"><__trans phrase="Tag"></th>
-            <th id="l-time"><__trans phrase="Time"></th>
-            <th id="l-call"><__trans phrase="Calls"></th>
-            <th id="l-avg"><__trans phrase="Avg."></th>
-            <th id="l-quer"><__trans phrase="Queries"></th>
-            <th id="l-hits"><__trans phrase="Hits"></th>
-            <th id="l-miss"><__trans phrase="Miss"></th>
-        </tr>
-    </thead>
-    <tbody>
-    </mt:if>
-        <tr class="<mt:if name="__odd__">odd<mt:else>even</mt:if>">
-            <td><mt:var name="tag" escape="html"></td>
-            <td><mt:var name="time" escape="html"></td>
-            <td><mt:var name="calls" escape="html"></td>
-            <td><mt:var name="avg" escape="html"></td>
-            <td><mt:var name="queries" escape="html"></td>
-            <td><mt:var name="hits" escape="html"></td>
-            <td><mt:var name="misses" escape="html"></td>
-        </tr>
-    <mt:if name="__last__">
-    </tbody>
-    </mt:if>
-</mtapp:listing>
-</mt:if>
+
+<mt:Include name="include/header.tmpl">
+
+<p>
+    This report summarizes the publishing performance for all template
+    tags found during in the template (and its includes such as Modules
+    and Widgets).
+</p>
+
+<div id="selector" class="selector listing list-data">
+    <table class="legacy listing-table list-heading">
+        <mt:SetVarBlock name="table_header">
+            <tr>
+                <th class="col head primary tag">
+                    <span class="col-label"><__trans phrase="Tag"></span>
+                </th>
+                <th class="col head time">
+                    <span class="col-label"><__trans phrase="Time"></span>
+                </th>
+                <th class="col head calls">
+                    <span class="col-label"><__trans phrase="Calls"></span>
+                </th>
+                <th class="col head average">
+                    <span class="col-label"><__trans phrase="Average"></span>
+                </th>
+                <th class="col head queries">
+                    <span class="col-label"><__trans phrase="Queries"></span>
+                </th>
+                <th class="col head hits">
+                    <span class="col-label"><__trans phrase="Cache Hits"></span>
+                </th>
+                <th class="col head misses">
+                    <span class="col-label"><__trans phrase="Cache Misses"></span>
+                </th>
+            </tr>
+        </mt:SetVarBlock>
+        <thead>
+            <mt:Var name="table_header">
+        </thead>
+        <tfoot>
+            <mt:Var name="table_header">
+        </tfoot>
+
+        <tbody>
+<mt:loop name="rows">
+            <tr id="entry-<mt:var name="id">" class="<mt:if name="__odd__">odd<mt:else>even</mt:if>">
+                <td class="col tag">
+                    <mt:Var name="tag" escape="html">
+                </td>
+                <td class="col time">
+                    <mt:Var name="time" escape="html">
+                </td>
+                <td class="col calls">
+                    <mt:Var name="calls" escape="html">
+                </td>
+                <td class="col average">
+                    <mt:Var name="avg" escape="html">
+                </td>
+                <td class="col queries">
+                    <mt:Var name="queries" escape="html">
+                </td>
+                <td class="col hits">
+                    <mt:Var name="hits" escape="html">
+                </td>
+                <td class="col misses">
+                    <mt:Var name="misses" escape="html">
+                </td>
+            </tr>
+</mt:loop>
+        </tbody>
+
+    </table>
+</div>
+
 
 <$mt:include name="include/footer.tmpl"$>
