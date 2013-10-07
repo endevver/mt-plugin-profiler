@@ -2,7 +2,7 @@
 
 <mt:setvarblock name="html_head" append="1">
     <script type="text/javascript" src="<$mt:StaticWebPath$>jquery/jquery.js"></script>
-    <script type="text/javascript" src="<$mt:StaticWebPath$>plugins/Profiler/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="<mt:StaticWebPath>support/plugins/profiler/jquery.tablesorter.min.js"></script>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
         $("#tags-listing-table").tablesorter();
@@ -26,19 +26,18 @@
         .listing-header { padding: 5px 0 10px 10px; }
         .listing h2 { color: #999; border-bottom: 1px solid #999; margin-bottom: 20px }
         th.header {
-          background-image: url(<$mt:StaticWebPath$>plugins/Profiler/bg.gif);
           cursor: pointer;
           font-weight: bold;
           background-repeat: no-repeat;
           background-position: center right;
           border-right: 1px solid #dad9c7;
           margin-left: -1px;
+            background-image: url(<mt:StaticWebPath>support/plugins/profiler/bg.gif);
         }
         th.headerSortUp {
-          background-image: url(<$mt:StaticWebPath$>plugins/Profiler/asc.gif);
+          background-image: url(<mt:StaticWebPath>support/plugins/profiler/asc.gif);
         }
         th.headerSortDown {
-          background-image: url(<$mt:StaticWebPath$>plugins/Profiler/desc.gif);
         }
         .flyout {
             left: auto;
@@ -61,6 +60,7 @@
         }
         .flyout p {
             margin: 3px 0 15px;
+          background-image: url(<mt:StaticWebPath>support/plugins/profiler/desc.gif);
         }
     </style>
 </mt:setvarblock>

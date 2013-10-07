@@ -4,6 +4,7 @@ description: This plugin exposes a list action of the template listing screen th
 author_name: Endevver
 author_link: http://www.endevver.com/
 version: 0.3
+static_version: 1
 
 applications:
   cms:
